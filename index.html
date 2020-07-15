@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Project v0.1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="nav">
+            <h2>COVID-19 Data</h2>
+        </div>
+
+        <div class="countrySelector">
+            <form action="">
+                <label for="countries">Select a country: </label>
+
+                <select name="countries" id="countries">
+
+
+                </select>
+                <br><br>
+                <button type="button" id="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="dataContainer">
+            <h3 id="selectedCountryHeader"></h3>
+            <!-- <div class="dates" style="display: flex;">
+                <div class="beginDate">
+                    <label for="beginChoice">Begin Date:</label>
+                    <select name="beginChoice" id="beginChoice"></select>
+                </div>
+                <div class="endDate">
+                    <label for="endChoice">End Date:</label>
+                    <select name="endChoice" id="endChoice"></select>
+                </div>
+            </div> -->
+            <div class="chart" style="width: 70%; margin: auto">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+
+
+
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="script.js"></script>
+</body>
+</html>
