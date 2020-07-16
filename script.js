@@ -12,6 +12,7 @@ let dataRecovered = [];
 let beginDate;
 let endDate;
 let initialLoad = true;
+var chart;
 
 // Identify elements that will be updated 
 const countries = document.getElementById('countries');
@@ -40,15 +41,32 @@ fetchCountries();
 
 // // Add list of countries to the dropdown on page
 function addCountries(json) {  
-    
+
+    // Can we sort the data by the country name?
+    // I 80% understand why this works -- pulled from https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
+    function compare(a, b) {
+        const countryA = a.Country.toUpperCase();
+        const countryB = b.Country.toUpperCase();
+
+        let comparison = 0;
+        if (countryA > countryB) {
+            comparison = 1;
+        }
+        else if (countryA < countryB) {
+            comparison = -1;
+        }
+        return comparison;
+    }
+    json = json.sort(compare);
+    // End of sorting
+
+    // Creates the options in HTML dropdown
     for(con of json) {
         let option = document.createElement('option');
 
         option.innerText = con.Country;
         option.value = con.Slug;
 
-        // jsonData.push(con);
-    
         countries.appendChild(option);
     }
 }
@@ -80,6 +98,11 @@ function displayStats(json){
     dataDeaths = [];
     dataRecovered = [];
 
+    // Need to destroy anything in the chart to stop old data from showing on hover
+    if (chart) {
+        chart.destroy();
+    }
+   
     for (item in json) {
         dataDate.push(json[item].Date);
         dataConfirmed.push(json[item].Confirmed);
@@ -89,20 +112,12 @@ function displayStats(json){
     
     // Build chart w/ data in Chart.js
     var ctx = document.getElementById('lineChart').getContext('2d');
-    var chart = new Chart(ctx, {
+    chart = new Chart(ctx, {
         type: 'line',
-        // The data for our dataset
+        // The data for our datasets
         data: {
             labels: dataDate,
             datasets: [{ 
-                label: 'Total Deaths',
-                borderColor: 'rgb(243, 119, 72)',
-                backgroundColor: 'rgb(243, 119, 72)',
-                fill: false,
-                pointRadius: 2,
-                data: dataDeaths
-            },
-            {
                 label: 'Total Confirmed Cases',
                 borderColor: 'rgb(132, 188, 218)',
                 backgroundColor: 'rgb(132, 188, 218)',
@@ -117,6 +132,14 @@ function displayStats(json){
                 fill: false,
                 pointRadius: 2,
                 data: dataRecovered
+            },
+            {
+                label: 'Total Deaths',
+                borderColor: 'rgb(243, 119, 72)',
+                backgroundColor: 'rgb(243, 119, 72)',
+                fill: false,
+                pointRadius: 2,
+                data: dataDeaths
             },]
         },
         // Configuration options go here

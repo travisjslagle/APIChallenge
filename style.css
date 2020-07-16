@@ -25,6 +25,11 @@ body {
     height: 3em;
 }
 
+.countrySelector {
+    font-size: 20px;
+    font-weight: bold;
+}
+
 .chart {
     background-color: rgb(250, 248, 245);
     border-radius: 3px;
